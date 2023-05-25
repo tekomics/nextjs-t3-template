@@ -13,4 +13,4 @@ pnpm i -D @types/eslint @types/node @types/prettier @types/react @types/react-do
 
 Then, add ```next-env.d.ts``` to the ```.gitignore``` file.
 
-Then, use the file ```env.example``` to construct an the environment variables after setting up a Clerk account and a PlanetScale database.
+Then, use the file ```env.example``` to construct a ```.env``` file after setting up a Clerk account and a PlanetScale database.
