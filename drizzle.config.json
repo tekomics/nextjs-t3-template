@@ -1,0 +1,4 @@
+{
+  "out": "./drizzle-orm/migrations",
+  "schema": "./src/server/db/schema/index.ts"
+}
