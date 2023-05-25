@@ -1,6 +1,6 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+## Setup
 
 First, update all packages:
 
@@ -11,4 +11,6 @@ pnpm i @clerk/nextjs @headlessui/react @heroicons/react @hookform/resolvers @pla
 pnpm i -D @types/eslint @types/node @types/prettier @types/react @types/react-dom @typescript-eslint/eslint-plugin @typescript-eslint/parser autoprefixer dotenv drizzle-kit eslint eslint-config-next mysql2 postcss prettier prettier-plugin-tailwindcss tailwindcss ts-node typescript
 ```
 
-Then, use the file ```env.example``` to construct an the environment variables after setting up a Clerk account and a PlanetScale database
+Then, add ```next-env.d.ts``` to the ```.gitignore``` file.
+
+Then, use the file ```env.example``` to construct an the environment variables after setting up a Clerk account and a PlanetScale database.
