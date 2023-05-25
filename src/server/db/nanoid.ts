@@ -7,7 +7,7 @@ const nanoid = customType<{ data: string | undefined; notNull: true }>({
     return 'varchar(12)'; // match prisma
   },
   toDriver(value?: string) {
-    return value || createId();
+    return value ?? createId();
   },
 });
 
