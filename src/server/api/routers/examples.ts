@@ -1,4 +1,4 @@
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 import { examples, type NewExample, type Example } from '@/server/db/schema';
@@ -9,13 +9,17 @@ export const examplesRouter = createTRPCRouter({
   insert: protectedProcedure
     .input(examplesRouterSchema.insert)
     .mutation(({ ctx, input }) => {
-      const owner_id = ctx.auth.orgId || ctx.auth.userId;
+      const owner = ctx.auth.orgId || ctx.auth.userId;
       return ctx.db
         .insert(examples)
-        .values({ id: createId(), owner_id, ...input } as NewExample);
+        .values({ id: createId(), owner, ...input } as NewExample);
     }),
   list: protectedProcedure.query(async ({ ctx }) => {
-    const results = await ctx.db.select().from(examples);
+    const owner = ctx.auth.orgId || ctx.auth.userId;
+    const results = await ctx.db
+      .select()
+      .from(examples)
+      .where(eq(examples.owner, owner));
     return results;
   }),
   get: protectedProcedure
@@ -29,11 +33,20 @@ export const examplesRouter = createTRPCRouter({
     }),
   update: protectedProcedure
     .input(examplesRouterSchema.update)
-    .mutation(({ ctx, input }) => {
+    .mutation(async ({ ctx, input }) => {
+      const owner = ctx.auth.orgId || ctx.auth.userId;
       return ctx.db
         .update(examples)
         .set(input as Example)
-        .where(eq(examples.id, input.id));
+        .where(and(eq(examples.id, input.id), eq(examples.owner, owner)));
+    }),
+  delete: protectedProcedure
+    .input(examplesRouterSchema.get)
+    .mutation(async ({ ctx, input }) => {
+      const owner = ctx.auth.orgId || ctx.auth.userId;
+      return ctx.db
+        .delete(examples)
+        .where(and(eq(examples.id, input.id), eq(examples.owner, owner)));
     }),
 });
 
@@ -41,15 +54,5 @@ export const examplesRouter = createTRPCRouter({
 // insert
 // list
 // get
-// upsert
 // update
 // delete
-
-// upsert: protectedProcedure
-//   .input(insertElementSchema)
-//   .mutation(({ ctx, input }) => {
-//     return ctx.db
-//       .insert(elements)
-//       .values(input as NewElement)
-//       .onConflictDoUpdate({ target: elements.id, set: { name: "John" } });
-//   }),
