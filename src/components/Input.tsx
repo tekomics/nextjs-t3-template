@@ -3,7 +3,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import { type FieldError, type UseFormRegisterReturn } from 'react-hook-form';
 
 const style = tv({
-  base: 'block w-full rounded-md border-0 py-1.5 px-2 ring-1 focus:ring-2 ring-inset focus:ring-inset',
+  base: 'block w-full rounded-md border-0 !outline-none py-1.5 px-2 ring-1 ring-inset focus:ring-inset focus:ring-2',
   variants: {
     color: {
       default:
@@ -15,15 +15,20 @@ const style = tv({
 });
 
 export default function Input({
-  label,
-  placeholder,
   registration,
   error,
+  label,
+  placeholder,
+  ...props
 }: {
-  label: string;
-  placeholder?: string;
   registration: UseFormRegisterReturn;
   error?: FieldError;
+  label?: string;
+  placeholder?: string;
+  props?: React.DetailedHTMLProps<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    HTMLInputElement
+  >;
 }) {
   return (
     <div>
@@ -37,8 +42,9 @@ export default function Input({
         <input
           className={style({ color: error ? 'error' : 'default' })}
           placeholder={placeholder}
-          aria-invalid="true"
-          aria-describedby="form-error"
+          aria-invalid={error ? 'true' : 'false'}
+          aria-describedby={`${registration.name}-error`}
+          {...props}
           {...registration}
         />
         {error && (
@@ -51,7 +57,10 @@ export default function Input({
         )}
       </div>
       {error && (
-        <p className="mt-2 text-sm text-red-600" id="form-error">
+        <p
+          className="mt-2 text-sm text-red-600"
+          id={`${registration.name}-error`}
+        >
           {error.message}
         </p>
       )}
