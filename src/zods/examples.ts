@@ -9,13 +9,13 @@ export const selectExampleSchema = createSelectSchema(examples);
 export const examplesRouterSchema = {
   insert: insertExampleSchema.extend({
     id: z.string().length(12).optional(),
-    owner: z.string().length(50).optional(),
+    owner: z.string().max(50).optional(),
   }),
   get: z.object({
     id: z.string().length(12),
   }),
   update: z.object({
     id: z.string().length(12),
-    owner: z.string().length(50).optional(),
+    owner: z.string().max(50).optional(),
   }),
 };
