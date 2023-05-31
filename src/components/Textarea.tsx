@@ -3,7 +3,7 @@ import { ExclamationCircleIcon } from '@heroicons/react/20/solid';
 import { type FieldError, type UseFormRegisterReturn } from 'react-hook-form';
 
 const style = tv({
-  base: 'block w-full rounded-md border-0 !outline-none py-1.5 px-2 ring-1 focus:ring-2 ring-inset focus:ring-inset',
+  base: 'block w-full rounded-md border-0 !outline-none py-1.5 px-2 ring-1 focus:ring-2 ring-inset focus:ring-inset transition-all',
   variants: {
     color: {
       default:
